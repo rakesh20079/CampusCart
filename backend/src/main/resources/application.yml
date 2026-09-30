@@ -1,0 +1,43 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: campus-cart-backend
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 15MB
+      max-request-size: 15MB
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:mini_project_1}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:Rakesh@725374}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: true
+
+app:
+  jwt:
+    # 256-bit base64/hex secret for HMAC-SHA256
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    access-token-expiration-ms: 3600000 # 1 hour
+    refresh-token-expiration-ms: 2592000000 # 30 days
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:426672383514-9o8eijmrdc3p0h0plb9hbv2v6psndv6m.apps.googleusercontent.com}
+  security:
+    allow-dev-login: false
+
+logging:
+  level:
+    root: INFO
+    com.campuscart: DEBUG

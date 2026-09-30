@@ -1,0 +1,8 @@
+target/*
+!target/campus-cart-backend-1.0.0.jar
+.git/
+.gitignore
+*.iml
+.idea/
+.vscode/
+uploads/

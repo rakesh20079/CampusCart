@@ -1,0 +1,25 @@
+# General
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Backend
+backend/target/
+backend/uploads/
+backend/*.iml
+
+# Frontend (Flutter)
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/build/
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/ios/.symlinks/
+frontend/ios/Pods/
+frontend/*.iml
+
+# AWS keys
+*.pem
