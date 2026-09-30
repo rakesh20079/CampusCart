@@ -1,0 +1,233 @@
+{
+  "info": {
+    "name": "Campus Cart API - Live AWS EC2",
+    "_postman_id": "c7a8b9d0-1234-5678-9abc-def012345678",
+    "description": "Postman Collection for Campus Cart collegiate peer-to-peer marketplace backend hosted on AWS EC2.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://51.20.86.132:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "categories"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Dev Login (Instant Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.accessToken) {",
+                  "    pm.collectionVariables.set('token', jsonData.accessToken);",
+                  "    console.log('Saved accessToken to collection variable');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alex.chen@university.edu\",\n  \"fullName\": \"Alex Chen\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/dev-login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "dev-login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get Feed Products (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "products"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "query",
+                  "value": "calculator",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "products", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Product Listing (Auth)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"TI-84 Plus CE Graphing Calculator\",\n  \"description\": \"Used for Calculus I & II. In great condition with charging cable.\",\n  \"price\": 1800,\n  \"originalPrice\": 3500,\n  \"conditionGrade\": \"LIKE_NEW\",\n  \"categoryId\": 2,\n  \"campusLocation\": \"Main Library / Block B\",\n  \"contactPhone\": \"+91 9876543210\",\n  \"contactWhatsapp\": \"+91 9876543210\",\n  \"imageUrl\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "products"]
+            }
+          }
+        },
+        {
+          "name": "Reveal Seller Contact (Auth)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/1/reveal-contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "products", "1", "reveal-contact"]
+            }
+          }
+        },
+        {
+          "name": "My Listings (Auth)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/my-listings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "products", "my-listings"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Product Status (Auth)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/1/status?status=SOLD",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "products", "1", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "SOLD"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Profile",
+      "item": [
+        {
+          "name": "Get Current User Profile (Auth)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users", "me"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
